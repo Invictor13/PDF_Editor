@@ -1,0 +1,288 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+
+:root {
+    --bg-color: #0f172a;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent-color: #3b82f6;
+    --accent-hover: #2563eb;
+    --card-bg: rgba(30, 41, 59, 0.6);
+    --border-color: rgba(255, 255, 255, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background: radial-gradient(circle at top right, #1e1b4b, var(--bg-color) 60%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+/* O cabeçalho usa a classe de Flexbox, que é a ferramenta mais moderna para alinhar itens na tela facilmente */
+#cabecalho {
+    display: flex;
+    justify-content: space-between;
+    /* Empurra a logo para o extremo esquerdo e a navegação (botões) para o direito */
+    align-items: center;
+    /* Alinha tudo bonitinho centralizado no eixo vertical */
+    padding: 10px 10px;
+    background: rgba(15, 23, 42, 0.7);
+    /* Uma cor azul muito escura com 70% de visibilidade */
+    backdrop-filter: blur(12px);
+    /* Efeito "Glassmorphism": Borra tudo que passar por trás dele como um vidro jateado */
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    /* "Sticky" (grudento) faz o cabeçalho prender no topo e descer junto quando rolamos a tela */
+    top: 0;
+    z-index: 100;
+    /* Evita que outras imagens passem por cima dele na rolagem */
+}
+
+#cabecalho h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #60a5fa, #c084fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+}
+
+nav {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-imgs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    /* Botões um pouco menores que os principais */
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-imgs:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-imgs.active {
+    color: var(--text-primary);
+    background: rgba(59, 130, 246, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+.nav-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-btn.active {
+    color: var(--text-primary);
+    background: rgba(59, 130, 246, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+/* Main Content */
+main {
+    flex: 1;
+    /* Pede para a área "main" ocupar todo o espaço restante vertical na tela, empurrando o footer para o fim */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 20px;
+}
+
+.content-frame {
+    display: flex;
+    flex-direction: row;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 100%;
+    min-height: 0px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+}
+
+/* Image Frame */
+.frame-image {
+    flex: 1.2;
+    /* A imagem vai ocupar uma proporção ligeiramente menor comparada à parte das informações (que tem 1.5) */
+    background-size: cover;
+    /* Garante que a imagem se espalhe e preencha toda a área, sem distorcer */
+    background-position: center;
+    /* transition cria a magia da suavidade quando mudamos entre abas! */
+    transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-right: 1px solid var(--border-color);
+    position: relative;
+    min-width: 350px;
+    /* Garante que o bloco não fique esmagado caso a tela diminua */
+    background-color: var(--bg-color);
+    /* Caso a imagem não carregue, um fundo aparece */
+
+    /* Configuração Flex para posicionar os botões 1, 2, 3 no fundo */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    /* Manda os botões pro fim (fundo) da div */
+    padding-bottom: 25px;
+}
+
+.img-nav-container {
+    display: flex;
+    gap: 10px;
+    background: rgba(15, 23, 42, 0.6);
+    padding: 8px;
+    border-radius: 20px;
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border-color);
+}
+
+/* Info Frame */
+.frame-info {
+    flex: 1.5;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+}
+
+.frame-info h2 {
+    font-size: 2.8rem;
+    margin-bottom: 25px;
+    color: var(--text-primary);
+    font-weight: 800;
+}
+
+.frame-info p {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.frame-info ul {
+    margin: 10px 0 25px 25px;
+    color: var(--text-secondary);
+}
+
+.frame-info li {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    margin-bottom: 10px;
+    position: relative;
+    list-style: none;
+}
+
+.frame-info li::before {
+    content: '→';
+    color: var(--accent-color);
+    position: absolute;
+    left: -25px;
+    font-weight: bold;
+}
+
+.github-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+    color: #fff;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    box-shadow: 0 10px 20px -10px rgba(59, 130, 246, 0.5);
+    width: fit-content;
+}
+
+.github-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px -10px rgba(59, 130, 246, 0.7);
+}
+
+/* Footer */
+footer {
+    background: rgba(15, 23, 42, 0.7);
+    border-top: 1px solid var(--border-color);
+    padding: 10px;
+    text-align: center;
+    backdrop-filter: blur(12px);
+}
+
+footer h2 {
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+footer h3 {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: rgba(148, 163, 184, 0.6);
+}
+
+/* Responsive Design */
+@media (max-width: 860px) {
+    #cabecalho {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .content-frame {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .frame-image {
+        min-height: 300px;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .frame-info {
+        padding: 40px 30px;
+    }
+
+    .frame-info h2 {
+        font-size: 2.2rem;
+    }
+}

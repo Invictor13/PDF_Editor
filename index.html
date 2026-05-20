@@ -1,38 +1,180 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
+<!--
+1) Primeiro passo, declarei os elementos no Head, definindo as configurações do site.
+Definição do idioma, configurações de viewport, link para o estilo CSS, e o título da página.
+-->
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="./page_content/style.css">
     <title>Editor de PDF - Apresentação</title>
 </head>
 
+
+<!--
+2) No corpo do HTML, realizei uma divisão de setores na página com: header, main e footer,
+2.1) A ideia do Header é apresentar o título e uma navegação elegante nas abas.
+2.2) No main, realizo a apresentação do conceito da página e suas devidas apresentações.
+2.3) O footer é apenas uma pequena apresentação, informando que fui o responsável pela página.
+-->
+
 <body>
-<header>
-    <div>
-        <h1> Cabeçalho do Editor PDF</h1>
-        <h2> Subtitulo do Editor</h2>
-    </div>
-</header>
+    <header id="cabecalho">
+        <div class="logo">
+            <h1>Editor de PDF - Invictor13</h1>
+        </div>
+        <nav>
+            <button class="nav-btn active" data-target="projeto">Projeto</button>
+            <button class="nav-btn" data-target="sobre">Sobre Mim</button>
+            <button class="nav-btn" data-target="github">GitHub</button>
+        </nav>
+    </header>
 
-<main>
-    <div>
-        <h2> Exibindo fotos do projeto</h2>
-    </div>
-    
-    <div>
-        <h2> Frame com as informações do projeto</h2>
-    </div>
+    <main>
+        <section class="content-frame">
+            <div id="main_img" class="frame-image">
+                <!-- Container para alinhar os botões no fundo da imagem -->
+                <div class="img-nav-container">
+                    <!-- Usamos data-index para identificar qual imagem carregar -->
+                    <button class="nav-imgs active" data-index="1">1</button>
+                    <button class="nav-imgs" data-index="2">2</button>
+                    <button class="nav-imgs" data-index="3">3</button>
+                </div>
+            </div>
+            <div id="main_info" class="frame-info">
+                <h2>Seja Bem vindo ao meu Projeto: Editor de PDF</h2>
+                <p>Este software visa atender as respectiva demandas:</p>
+                <ul>
+                    <li> Foco principal em compactação de PDF</li>
+                    <li> Entre outras formas de edição: Mesclar, excluir...</li>
+                </ul>
+            </div>
+        </section>
+    </main>
 
-    <div>
-        <h2> Botões de Navegação do Projeto</h2>
-    </div>
-</main>
+    <footer>
+        <h2>Desenvolvido por Victor Ladislau Viana</h2>
+        <h3>&copy; 2026 - Invictor13</h3>
+    </footer>
 
-<footer>
-    <h2> Desenvolvido por Victor Ladislau Viana</h2>
-    <p> 2026 - Invictor13</p>
+    <!--
+3) Aqui está o coração dinâmico da página, responsável pela transição de conteúdo entre as abas.
+-->
 
-</footer>
+    <script>
+        // 3.1) Primeiro, criamos um "dicionário" (objeto) chamado contentData.
+        // Ele guarda a pasta correspondente e o código HTML para cada uma das nossas abas.
+        const contentData = {
+            sobre: {
+                folder: 'sobre',
+                html: `
+                    <h2>Sobre Mim</h2>
+                    <p>Olá, eu sou o Victor Ladislau Viana (Invictor13).</p>
+                    <p>Sou um desenvolvedor apaixonado por tecnologia e programação. Este portfólio visa apresentar meus projetos, focando especialmente no Editor de PDF.</p>
+                `
+            },
+            projeto: {
+                folder: 'projeto',
+                html: `
+                <h2>Seja Bem vindo ao meu Projeto: Editor de PDF</h2>
+                <p>Este software visa atender as respectiva demandas:</p>
+                <ul>
+                    <li> Foco principal em compactação de PDF</li>
+                    <li> Entre outras formas de edição: Mesclar, excluir...</li>
+                </ul>
+                `
+            },
+            github: {
+                folder: 'github',
+                html: `
+                    <h2>Repositório do Projeto</h2>
+                    <p>Você pode conferir o código fonte deste e de outros projetos no meu GitHub.</p>
+                    <p>Acesse o repositório para contribuir ou acompanhar as atualizações.</p>
+                    <p><a href="https://github.com/Invictor13/PDF_Editor" target="_blank" class="github-link">Visitar meu Perfil no GitHub</a></p>
+                `
+            }
+        };
+
+        // 3.2) Selecionamos os elementos da página
+        const buttons = document.querySelectorAll('.nav-btn');
+        const imgButtons = document.querySelectorAll('.nav-imgs'); // Novos botões de imagem
+        const mainImg = document.getElementById('main_img');
+        const mainInfo = document.getElementById('main_info');
+
+        // Variáveis para controlar o estado atual
+        let currentSection = 'projeto'; // Começa no projeto
+        let currentImgIndex = 1; // Começa na imagem 1
+
+        // 3.3) Nova função para atualizar apenas a imagem de fundo
+        function updateImage() {
+            // O caminho ficará, por exemplo: ./page_content/sobre/sobre_1.png
+            const imagePath = `./page_content/${currentSection}/${currentSection}_${currentImgIndex}.png`;
+            mainImg.style.backgroundImage = `url('${imagePath}')`;
+
+            // Atualizar qual botão numérico (interno) está ativo
+            imgButtons.forEach(btn => {
+                const btnIndex = parseInt(btn.dataset.index);
+                btn.classList.toggle('active', btnIndex === currentImgIndex);
+            });
+        }
+
+        // 3.4) Função principal que atualiza a aba inteira (Texto + zera a imagem)
+        function updateContent(target) {
+            const data = contentData[target];
+            if (data) {
+                currentSection = target;
+                currentImgIndex = 1; // Quando troca de aba, volta para a imagem 1
+
+                buttons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.target === target);
+                });
+
+                mainInfo.style.opacity = 0;
+                mainImg.style.opacity = 0;
+                mainImg.style.transform = 'scale(0.95)';
+
+                setTimeout(() => {
+                    mainInfo.innerHTML = data.html;
+                    updateImage(); // Puxa a nova imagem!
+
+                    mainInfo.style.opacity = 1;
+                    mainImg.style.opacity = 1;
+                    mainImg.style.transform = 'scale(1)';
+                }, 300);
+            }
+        }
+
+        // 3.5) Event Listeners para botões principais (Aba Superior)
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (!btn.classList.contains('active')) {
+                    updateContent(btn.dataset.target);
+                }
+            });
+        });
+
+        // 3.6) Event Listeners para os botões internos de imagem (1, 2, 3)
+        imgButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const clickedIndex = parseInt(btn.dataset.index);
+                // Só atualiza se clicar num botão diferente do atual
+                if (clickedIndex !== currentImgIndex) {
+                    mainImg.style.opacity = 0; // Faz a imagem sumir
+                    setTimeout(() => {
+                        currentImgIndex = clickedIndex;
+                        updateImage(); // Troca a imagem
+                        mainImg.style.opacity = 1; // Faz aparecer de novo
+                    }, 300);
+                }
+            });
+        });
+
+        // Inicializa a imagem no primeiro carregamento
+        updateImage();
+    </script>
 </body>
+
 </html>
